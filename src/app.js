@@ -3,19 +3,24 @@ const KoaBody = require('koa-body')
 
 const SystemConfig = require('./config').System
 
-const path = require('path')
 const routes = require('./routes/index')
 const ErrorRoutes = require('./routes/error-routes')
 
 const ErrorRoutesCatch = require('./middleware/ErrorRoutesCatch')
-const LwStatic = require('./middleware/LwStatic')
 const customizedLogger = require('./tool/customized-winston-logger')
 // require('./mongodb/db') // 直接连接数据库，不需要使用db
+
+const redis = require('redis')
+const client = redis.createClient()
 
 global.logger = customizedLogger
 
 const app = new Koa2()
 const env = process.env.NODE_ENV || 'development' // Current mode
+
+client.on('error', function (err) {
+  console.log('[redis] Error ' + err)
+})
 
 // const publicKey = fs.readFileSync(path.join(__dirname, '../publicKey.pub'))
 
@@ -36,10 +41,10 @@ app
     ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Access-Token')
     ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS')
     ctx.set('Access-Control-Allow-Credentials', true) // 允许带上 cookie
+    ctx.redisClient = client
     return next()
   })
   .use(ErrorRoutesCatch())
-  .use(LwStatic('api/storeroom', path.resolve('/home/storeroom')))
   .use(routes)
   .use(ErrorRoutes())
 app.listen(SystemConfig.API_server_port)

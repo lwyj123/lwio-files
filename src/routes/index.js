@@ -1,6 +1,6 @@
 const compose = require('koa-compose')
 const testRoutes = require('./test')
-const uploadRoutes = require('../upload')
+const uploadRoutes = require('./upload')
 
 const router = compose([
   testRoutes.routes(),

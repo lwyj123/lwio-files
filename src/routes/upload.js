@@ -1,6 +1,6 @@
 const KoaRouter = require('koa-router')
 
-const uploadController = require('../controllers/test')
+const uploadController = require('../controllers/upload')
 
 const router = new KoaRouter({ prefix: '/upload' })
 
