@@ -2,12 +2,12 @@ const KoaRouter = require('koa-router')
 
 const uploadController = require('../controllers/upload')
 
-const router = new KoaRouter({ prefix: '/upload' })
+const router = new KoaRouter({ prefix: '/multipart' })
 
 router
-  .post('/multipart/upload', uploadController.upload)
-  .post('/multipart/start', uploadController.start)
-  .post('/multipart/commit', uploadController.commit)
-  .post('/multipart/complete', uploadController.complete)
+  .post('/upload', uploadController.upload)
+  .post('/start', uploadController.start)
+  .post('/commit', uploadController.commit)
+  .post('/complete', uploadController.complete)
 
 module.exports = router
