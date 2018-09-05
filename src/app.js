@@ -35,7 +35,7 @@ if (env === 'development') { // logger
 }
 
 app
-  .use(KoaBody())
+  .use(KoaBody({multipart: true}))
   .use((ctx, next) => {
     ctx.set('Access-Control-Allow-Origin', '*')
     ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Access-Token')
