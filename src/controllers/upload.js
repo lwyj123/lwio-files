@@ -64,7 +64,7 @@ class UploadController extends BaseController {
     const filename = crypto.randomBytes(16).toString('hex') + '.' + fields.ext
     await writeFilePromise(`/storeroom/blackhole/${filename}`, fields.buffer)
     ctx.body = {
-      url: `http://files.lwio.me/api/storeroom/${filename}`
+      url: `http://files.lwio.me/blackhole/${filename}`
     }
   }
 

@@ -9,6 +9,7 @@ const ErrorRoutes = require('./routes/error-routes')
 const ErrorRoutesCatch = require('./middleware/ErrorRoutesCatch')
 const customizedLogger = require('./tool/customized-winston-logger')
 // require('./mongodb/db') // 直接连接数据库，不需要使用db
+const lwStatic = require('./middleware/LwStatic')
 
 const redis = require('redis')
 const client = redis.createClient()
@@ -46,6 +47,7 @@ app
   })
   .use(ErrorRoutesCatch())
   .use(routes)
+  .use(lwStatic('', '/storeroom'))
   .use(ErrorRoutes())
 app.listen(SystemConfig.API_server_port)
 
