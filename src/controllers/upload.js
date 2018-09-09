@@ -60,9 +60,9 @@ class UploadController extends BaseController {
   // 用于上传分块，
   async upload (ctx) {
     console.log(ctx)
-    const { fields } = ctx.request.body
+    const { fields, files } = ctx.request.body
     const filename = crypto.randomBytes(16).toString('hex') + '.' + fields.ext
-    await writeFilePromise(`/storeroom/blackhole/${filename}`, fields.buffer)
+    await writeFilePromise(`/storeroom/blackhole/${filename}`, files.buffer)
     ctx.body = {
       url: `http://files.lwio.me/blackhole/${filename}`
     }
