@@ -31,6 +31,17 @@ const accessPromise = async (targetDir) => {
   })
 }
 
+const writeFilePromise = async (path, data) => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(path, data, (err) => {
+      if (err) {
+        reject(err)
+      }
+      resolve()
+    })
+  })
+}
+
 class UploadController extends BaseController {
   /**
    * 开放给业务方服务器端的接口
@@ -49,6 +60,12 @@ class UploadController extends BaseController {
   // 用于上传分块，
   async upload (ctx) {
     console.log(ctx)
+    const { fields } = ctx.request.body
+    const filename = crypto.randomBytes(16).toString('hex') + '.' + fields.ext
+    await writeFilePromise(`/storeroom/blackhole/${filename}`, fields.buffer)
+    ctx.body = {
+      url: `http://files.lwio.me/api/storeroom/${filename}`
+    }
   }
 
   // start用于开始任务，返回一个taskId
